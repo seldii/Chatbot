@@ -8,11 +8,20 @@
     "npm": "6.4.1"
   },
   "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Selda Guzel Steltner",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "@google-cloud/storage": "^3.2.1",
+    "body-parser": "^1.19.0",
+    "dialogflow": "^0.10.3",
+    "express": "^4.17.1",
+    "structjson": "^1.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
   }
 }
