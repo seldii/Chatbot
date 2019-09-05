@@ -3,7 +3,7 @@
 const chatbot = require("../chatbot/chatbot");
 
 module.exports = app => {
-  app.post("/api/df_text_query", async (req, res) => {
+  app.post("/api/text_query", async (req, res) => {
     try {
       const responses = await chatbot.textQuery(
         req.body.text,
@@ -15,7 +15,7 @@ module.exports = app => {
     }
   });
 
-  app.post("/api/df_event_query", async (req, res) => {
+  app.post("/api/event_query", async (req, res) => {
     try {
       const responses = await chatbot.eventQuery(
         req.body.event,
