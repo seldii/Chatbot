@@ -13,11 +13,28 @@ const credentials = {
 };
 
 const sessionClient = new dialogflow.SessionsClient({ projectId, credentials });
-const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+
+const DetectLanguage = require("detectlanguage");
+
+const detectLanguage = new DetectLanguage({
+  key: "11e3c4ee547466256cb64048503dee95",
+  ssl: true || false
+});
 
 module.exports = {
-  textQuery: async function(text, parameters = {}) {
+  textQuery: async function(text, identifier, parameters = {}) {
+    let sessionPath = sessionClient.sessionPath(
+      projectId,
+      sessionId + identifier
+    );
+
+    detectLanguage.detect(text, function(error, result) {
+      let res = JSON.stringify(result);
+      console.log(res.language);
+    });
+
     let self = module.exports;
+
     const request = {
       session: sessionPath,
       queryInput: {
@@ -37,7 +54,11 @@ module.exports = {
     responses = await self.handleAction(responses);
     return responses;
   },
-  eventQuery: async function(event, parameters = {}) {
+  eventQuery: async function(event, identifier, parameters = {}) {
+    let sessionPath = sessionClient.sessionPath(
+      projectId,
+      sessionId + identifier
+    );
     let self = module.exports;
     const request = {
       session: sessionPath,

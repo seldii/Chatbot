@@ -5,11 +5,15 @@
   "dependencies": {
     "@material-ui/core": "^4.4.0",
     "axios": "^0.19.0",
+    "detectlanguage": "^1.2.2",
+    "franc": "^4.1.0",
     "http-proxy-middleware": "^0.20.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.1.1"
+    "react-scripts": "3.1.1",
+    "universal-cookie": "^4.0.2",
+    "uuid": "^3.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -18,7 +22,10 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "globals": {
+      "chrome": true
+    }
   },
   "browserslist": {
     "production": [

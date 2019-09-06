@@ -7,6 +7,7 @@ module.exports = app => {
     try {
       const responses = await chatbot.textQuery(
         req.body.text,
+        req.body.identifier,
         req.body.parameters
       );
       res.send(responses[0].queryResult);
@@ -19,6 +20,7 @@ module.exports = app => {
     try {
       const responses = await chatbot.eventQuery(
         req.body.event,
+        req.body.identifier,
         req.body.parameters
       );
       res.send(responses[0].queryResult);
