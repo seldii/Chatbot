@@ -7,12 +7,6 @@ import axios from "axios";
 
 import { v4 as uuid } from "uuid";
 import Cookies from "universal-cookie";
-import DetectLanguage from "detectlanguage";
-
-const detectLanguage = new DetectLanguage({
-  key: "11e3c4ee547466256cb64048503dee95",
-  ssl: true || false
-});
 
 const styles = theme => ({
   root: {
@@ -50,11 +44,6 @@ class Chatbot extends Component {
       cookies.set("identifier-id", uuid(), { path: "/" }); //identifier-id generated for user
     }
 
-    var dataSimple = "I am a Teapot and a Submarine";
-    detectLanguage.detect(dataSimple, function(error, result) {
-      console.log(JSON.stringify(result));
-    });
-
     console.log(cookies.get("identifier"));
   }
 
@@ -84,10 +73,21 @@ class Chatbot extends Component {
 
   componentDidMount() {
     this.eventQuery("Welcome"); //Greetings message from the bot when the component first rendered
+    this.getMessages();
   }
 
   componentDidUpdate() {
     this.messagesEnd.scrollIntoView({ behavior: "smooth" }); //scroll down to see the input element
+  }
+
+  async getMessages() {
+    const identifier = cookies.get("identifier-id");
+    const session_id = "bot-session" + identifier;
+    const res = await axios.get(`/api/${session_id}/messages`);
+
+    this.setState({
+      messages: res.data
+    });
   }
 
   async textQuery(text) {
@@ -134,7 +134,7 @@ class Chatbot extends Component {
         return (
           <Message
             identifier={message.identifier}
-            text={message.msg.text.text}
+            text={message.replies[0].text.text}
             key={idx}
           ></Message>
         );

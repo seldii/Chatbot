@@ -3,4 +3,4 @@
 package-lock.json
 
 #config
-config/dev.js
+/config/dev.js
