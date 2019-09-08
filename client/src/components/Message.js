@@ -22,17 +22,17 @@ const Message = props => {
   return (
     <div>
       <Grid container direction="row">
-        {props.identifier === "bot" && (
+        {props.speaks === "bot" && (
           <Grid item xs={4}>
-            <Avatar className={classes.bot}>{props.identifier}</Avatar>
+            <Avatar className={classes.bot}>Lytt</Avatar>
           </Grid>
         )}
         <Grid item xs={8}>
           <Paper style={{ backgroundColor: "lightgrey" }}>{props.text}</Paper>
         </Grid>
-        {props.identifier === "me" && (
+        {props.speaks === "me" && (
           <Grid item xs={4}>
-            <Avatar className={classes.human}>{props.identifier}</Avatar>
+            <Avatar className={classes.human}>{props.speaks}</Avatar>
           </Grid>
         )}
       </Grid>

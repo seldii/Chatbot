@@ -10,7 +10,7 @@ module.exports = app => {
       const messages = await Session.find({
         session_id: req.params.session_id
       });
-      console.log(messages);
+
       res.send(messages);
     } catch (err) {
       res.status(500).send("Server Error");

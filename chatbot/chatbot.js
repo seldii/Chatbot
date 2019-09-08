@@ -27,14 +27,18 @@ const lang = language.substring(0, 2);
 const languageCode = lang;
 
 module.exports = {
-  textQuery: async function(text, identifier, parameters = {}) {
-    console.log(identifier);
+  textQuery: async function(
+    text,
+    identifier,
+    messageIdentifier,
+    parameters = {}
+  ) {
     let sessionPath = sessionClient.sessionPath(
       projectId,
       sessionId + identifier
     );
     let langCode;
-    function callback(error, result) {
+    /* function callback(error, result) {
       if (error) throw error;
       langCode = JSON.stringify(result);
     }
@@ -43,7 +47,7 @@ module.exports = {
 
     setTimeout(function() {
       console.log(langCode);
-    }, 3000);
+    }, 3000); */
 
     let self = module.exports;
 
@@ -63,7 +67,11 @@ module.exports = {
     };
 
     let responses = await sessionClient.detectIntent(request);
-    responses = await self.handleAction(responses, identifier);
+    responses = await self.handleAction(
+      responses,
+      identifier,
+      messageIdentifier
+    );
     return responses;
   },
   eventQuery: async function(event, identifier, parameters = {}) {
@@ -89,19 +97,34 @@ module.exports = {
     return responses;
   },
 
-  handleAction: function(responses, identifier) {
+  handleAction: function(responses, identifier, messageIdentifier) {
     let self = module.exports;
-    let queryResult = responses[0].queryResult;
-    self.saveSession(queryResult.fulfillmentMessages, identifier);
+    let fulfillmentMessages = responses[0].queryResult.fulfillmentMessages;
+    let intent = responses[0].queryResult.intent.displayName; //intet name
+    self.saveSession(
+      fulfillmentMessages,
+      identifier,
+      intent,
+      messageIdentifier
+    );
     return responses;
   },
 
-  saveSession: async function(resultFull, identifier) {
+  saveSession: async function(
+    fulfillmentMessages,
+    identifier,
+    intent,
+    messageIdentifier
+  ) {
     const newSession = new Session({
       session_id: sessionId + identifier,
-      replies: resultFull,
+      replies: {
+        msg: fulfillmentMessages,
+        locale_key: languageCode + "." + intent,
+        reply_to: messageIdentifier
+      },
       message: {
-        identifier: identifier,
+        identifier: messageIdentifier,
         detected_language: languageCode
       }
     });

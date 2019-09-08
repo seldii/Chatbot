@@ -8,6 +8,7 @@ module.exports = app => {
       const responses = await chatbot.textQuery(
         req.body.text,
         req.body.identifier,
+        req.body.messageIdentifier,
         req.body.parameters
       );
       res.send(responses[0].queryResult);

@@ -43,8 +43,6 @@ class Chatbot extends Component {
       //cookie generated if no identifier-id is defined yet
       cookies.set("identifier-id", uuid(), { path: "/" }); //identifier-id generated for user
     }
-
-    console.log(cookies.get("identifier"));
   }
 
   onChange(e) {
@@ -71,6 +69,8 @@ class Chatbot extends Component {
     });
   }
 
+  compo;
+
   componentDidMount() {
     this.eventQuery("Welcome"); //Greetings message from the bot when the component first rendered
     this.getMessages();
@@ -84,15 +84,28 @@ class Chatbot extends Component {
     const identifier = cookies.get("identifier-id");
     const session_id = "bot-session" + identifier;
     const res = await axios.get(`/api/${session_id}/messages`);
+    const replies = res.data.map(data => {
+      return data.replies;
+    });
 
-    this.setState({
-      messages: res.data
+    let messages = replies.map(msg => {
+      return msg.msg;
+    });
+    console.log(messages);
+    const merged = [].concat.apply([], messages);
+    console.log(merged);
+    merged.map(msg => {
+      let reply = {
+        speaks: "bot",
+        msg: msg
+      };
+      this.setState({ messages: [...this.state.messages, reply] });
     });
   }
 
   async textQuery(text) {
     let newMessage = {
-      identifier: "me",
+      speaks: "me",
       msg: {
         text: {
           text: text
@@ -101,16 +114,20 @@ class Chatbot extends Component {
       }
     };
     this.setState({ messages: [...this.state.messages, newMessage] });
+    const messageIdentifier = uuid();
     const res = await axios.post("api/text_query", {
       text,
-      identifier: cookies.get("identifier-id")
+      identifier: cookies.get("identifier-id"),
+      messageIdentifier
     });
 
     res.data.fulfillmentMessages.map(msg => {
       newMessage = {
-        identifier: "bot",
-        msg: msg
+        speaks: "bot",
+        msg: msg,
+        sent_at: new Date()
       };
+      console.log(newMessage);
       this.setState({ messages: [...this.state.messages, newMessage] });
     });
   }
@@ -121,9 +138,10 @@ class Chatbot extends Component {
     });
     res.data.fulfillmentMessages.map(msg => {
       let newMessage = {
-        identifier: "bot",
+        speaks: "bot",
         msg: msg
       };
+
       this.setState({ messages: [...this.state.messages, newMessage] });
     });
   }
@@ -133,8 +151,8 @@ class Chatbot extends Component {
       return stateMessages.map((message, idx) => {
         return (
           <Message
-            identifier={message.identifier}
-            text={message.replies[0].text.text}
+            speaks={message.speaks}
+            text={message.msg.text.text}
             key={idx}
           ></Message>
         );
