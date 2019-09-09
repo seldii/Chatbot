@@ -69,9 +69,8 @@ class Chatbot extends Component {
     });
   }
 
-  compo;
-
   componentDidMount() {
+    console.log(navigator.language);
     this.eventQuery("Welcome"); //Greetings message from the bot when the component first rendered
     this.getMessages();
   }
@@ -91,7 +90,6 @@ class Chatbot extends Component {
     let messages = replies.map(msg => {
       return msg.msg;
     });
-    console.log(messages);
     const merged = [].concat.apply([], messages);
     console.log(merged);
     merged.map(msg => {
@@ -118,7 +116,8 @@ class Chatbot extends Component {
     const res = await axios.post("api/text_query", {
       text,
       identifier: cookies.get("identifier-id"),
-      messageIdentifier
+      messageIdentifier,
+      languageCode: navigator.language.substring(0, 2)
     });
 
     res.data.fulfillmentMessages.map(msg => {
@@ -134,7 +133,8 @@ class Chatbot extends Component {
   async eventQuery(event) {
     const res = await axios.post("api/event_query", {
       event,
-      identifier: cookies.get("identifier-id")
+      identifier: cookies.get("identifier-id"),
+      languageCode: navigator.language.substring(0, 2)
     });
     res.data.fulfillmentMessages.map(msg => {
       let newMessage = {

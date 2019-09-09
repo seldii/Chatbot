@@ -12,16 +12,18 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "Selda Guzel Steltner",
   "license": "ISC",
   "dependencies": {
     "@google-cloud/storage": "^3.2.1",
+    "@google-cloud/translate": "^4.1.3",
     "body-parser": "^1.19.0",
     "detectlanguage": "^1.2.2",
     "dialogflow": "^0.10.3",
     "express": "^4.17.1",
+    "express-request-language": "^1.1.15",
     "mongoose": "^5.6.13",
     "structjson": "^1.0.1"
   },

@@ -24,30 +24,26 @@ const detectLanguage = new DetectLanguage({
 /* const env = process.env;
 const language = env.LANG || env.LANGUAGE || env.LC_ALL || env.LC_MESSAGES;
 const lang = language.substring(0, 2); */
-const languageCode = "tr";
 
 module.exports = {
   textQuery: async function(
     text,
     identifier,
     messageIdentifier,
+    languageCode,
     parameters = {}
   ) {
     let sessionPath = sessionClient.sessionPath(
       projectId,
       sessionId + identifier
     );
-    let langCode;
-    /* function callback(error, result) {
+
+    /*   function callback(error, result) {
       if (error) throw error;
       langCode = JSON.stringify(result);
     }
 
-    detectLanguage.detect(text, callback);
-
-    setTimeout(function() {
-      console.log(langCode);
-    }, 3000); */
+    detectLanguage.detect(text, callback); */
 
     let self = module.exports;
 
@@ -56,7 +52,7 @@ module.exports = {
       queryInput: {
         text: {
           text: text,
-          languageCode: langCode || languageCode
+          languageCode: languageCode
         }
       },
       queryParams: {
@@ -74,7 +70,7 @@ module.exports = {
     );
     return responses;
   },
-  eventQuery: async function(event, identifier, parameters = {}) {
+  eventQuery: async function(event, identifier, parameters = {}, languageCode) {
     let sessionPath = sessionClient.sessionPath(
       projectId,
       sessionId + identifier
@@ -97,7 +93,12 @@ module.exports = {
     return responses;
   },
 
-  handleAction: function(responses, identifier, messageIdentifier) {
+  handleAction: function(
+    responses,
+    identifier,
+    messageIdentifier,
+    languageCode
+  ) {
     let self = module.exports;
     let fulfillmentMessages = responses[0].queryResult.fulfillmentMessages;
     let intent = responses[0].queryResult.intent.displayName; //intet name
@@ -105,7 +106,8 @@ module.exports = {
       fulfillmentMessages,
       identifier,
       intent,
-      messageIdentifier
+      messageIdentifier,
+      languageCode
     );
     return responses;
   },
@@ -114,7 +116,8 @@ module.exports = {
     fulfillmentMessages,
     identifier,
     intent,
-    messageIdentifier
+    messageIdentifier,
+    languageCode
   ) {
     const newSession = new Session({
       session_id: sessionId + identifier,
