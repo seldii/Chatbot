@@ -9,7 +9,7 @@ module.exports = app => {
         req.body.text,
         req.body.identifier,
         req.body.messageIdentifier,
-        red.body.languageCode,
+        req.body.languageCode,
         req.body.parameters
       );
       res.send(responses[0].queryResult);
@@ -23,8 +23,9 @@ module.exports = app => {
       const responses = await chatbot.eventQuery(
         req.body.event,
         req.body.identifier,
-        req.body.parameters,
-        req.body.languageCode
+        req.body.messageIdentifier,
+        req.body.languageCode,
+        req.body.parameters
       );
       res.send(responses[0].queryResult);
     } catch (err) {

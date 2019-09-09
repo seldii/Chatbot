@@ -91,7 +91,6 @@ class Chatbot extends Component {
       return msg.msg;
     });
     const merged = [].concat.apply([], messages);
-    console.log(merged);
     merged.map(msg => {
       let reply = {
         speaks: "bot",
@@ -126,7 +125,7 @@ class Chatbot extends Component {
         msg: msg,
         sent_at: new Date()
       };
-      console.log(newMessage);
+
       this.setState({ messages: [...this.state.messages, newMessage] });
     });
   }
@@ -134,6 +133,7 @@ class Chatbot extends Component {
     const res = await axios.post("api/event_query", {
       event,
       identifier: cookies.get("identifier-id"),
+      messageIdentifier: uuid(),
       languageCode: navigator.language.substring(0, 2)
     });
     res.data.fulfillmentMessages.map(msg => {

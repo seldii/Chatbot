@@ -70,7 +70,13 @@ module.exports = {
     );
     return responses;
   },
-  eventQuery: async function(event, identifier, parameters = {}, languageCode) {
+  eventQuery: async function(
+    event,
+    identifier,
+    messageIdentifier,
+    languageCode,
+    parameters = {}
+  ) {
     let sessionPath = sessionClient.sessionPath(
       projectId,
       sessionId + identifier
@@ -89,7 +95,12 @@ module.exports = {
     };
 
     let responses = await sessionClient.detectIntent(request);
-    responses = await self.handleAction(responses, identifier);
+    responses = await self.handleAction(
+      responses,
+      identifier,
+      messageIdentifier,
+      languageCode
+    );
     return responses;
   },
 
