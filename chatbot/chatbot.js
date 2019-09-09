@@ -21,10 +21,10 @@ const detectLanguage = new DetectLanguage({
   ssl: true || false
 });
 
-const env = process.env;
+/* const env = process.env;
 const language = env.LANG || env.LANGUAGE || env.LC_ALL || env.LC_MESSAGES;
-const lang = language.substring(0, 2);
-const languageCode = lang;
+const lang = language.substring(0, 2); */
+const languageCode = "tr";
 
 module.exports = {
   textQuery: async function(
