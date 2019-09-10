@@ -6,7 +6,7 @@ const config = require("./config/keys");
 
 app.use(bodyParser.json());
 
-app.use(express.static("./"));
+app.use(express.static("./public"));
 
 require("./routes/dialogFlowRoutes")(app);
 
