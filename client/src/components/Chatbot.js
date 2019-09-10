@@ -70,7 +70,6 @@ class Chatbot extends Component {
   }
 
   componentDidMount() {
-    console.log(navigator.language);
     this.eventQuery("Welcome"); //Greetings message from the bot when the component first rendered
     this.getMessages();
   }
@@ -166,11 +165,7 @@ class Chatbot extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.messages} spacing={2}>
-          <Grid container direction="row">
-            <Grid item>
-              <h2 className={classes.title}>Lytt</h2>
-            </Grid>
-          </Grid>
+          <Grid container direction="row"></Grid>
           <Grid item>{this.displayMessages(this.state.messages)}</Grid>
           <Grid item container direction="row">
             <Grid item xs={9}>
