@@ -3,7 +3,7 @@ const dialogflow = require("dialogflow");
 const structjson = require("structjson");
 const config = require("../config/keys");
 const projectId = config.googleProjectID;
-const sessionId = config.dialogFlowSessionID;
+const sessionId = "bot-session-";
 
 const credentials = {
   client_email: config.googleClientEmail,
