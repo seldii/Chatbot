@@ -6,8 +6,6 @@ const config = require("./config/keys");
 
 app.use(bodyParser.json());
 
-app.use(express.static("./public"));
-
 require("./routes/dialogFlowRoutes")(app);
 
 require("./routes/sessionRoute")(app);
