@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const bodyParser = require("body-parser");
-const config = require("./config/keys");
+const config = require("./config/dev");
 
 app.use(bodyParser.json());
 

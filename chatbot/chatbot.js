@@ -2,7 +2,6 @@
 const dialogflow = require("dialogflow");
 const structjson = require("structjson");
 const config = require("../config/keys");
-
 const projectId = config.googleProjectID;
 const sessionId = config.dialogFlowSessionID;
 
@@ -20,10 +19,6 @@ const detectLanguage = new DetectLanguage({
   key: "11e3c4ee547466256cb64048503dee95",
   ssl: true || false
 });
-
-/* const env = process.env;
-const language = env.LANG || env.LANGUAGE || env.LC_ALL || env.LC_MESSAGES;
-const lang = language.substring(0, 2); */
 
 module.exports = {
   textQuery: async function(
