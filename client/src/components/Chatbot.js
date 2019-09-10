@@ -80,7 +80,7 @@ class Chatbot extends Component {
 
   async getMessages() {
     const identifier = cookies.get("identifier-id");
-    const session_id = "bot-session" + identifier;
+    const session_id = "bot-session-" + identifier;
     const res = await axios.get(`/api/${session_id}/messages`);
     const replies = res.data.map(data => {
       return data.replies;
