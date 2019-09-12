@@ -25,29 +25,22 @@ module.exports = {
     text,
     identifier,
     messageIdentifier,
-    languageCode,
+    langCode,
     parameters = {}
   ) {
+    let self = module.exports;
+
     let sessionPath = sessionClient.sessionPath(
       projectId,
       sessionId + identifier
     );
-
-    /*   function callback(error, result) {
-      if (error) throw error;
-      langCode = JSON.stringify(result);
-    }
-
-    detectLanguage.detect(text, callback); */
-
-    let self = module.exports;
 
     const request = {
       session: sessionPath,
       queryInput: {
         text: {
           text: text,
-          languageCode: languageCode
+          languageCode: langCode
         }
       },
       queryParams: {
@@ -58,11 +51,7 @@ module.exports = {
     };
 
     let responses = await sessionClient.detectIntent(request);
-    responses = await self.handleAction(
-      responses,
-      identifier,
-      messageIdentifier
-    );
+    responses = self.handleAction(responses, identifier, messageIdentifier);
     return responses;
   },
   eventQuery: async function(
